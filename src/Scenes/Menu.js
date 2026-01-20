@@ -50,9 +50,30 @@ class Menu extends Phaser.Scene {
         menuConfig.backgroundColor = '#00FF00'
         menuConfig.color = '#000'
         
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'PRESS (LEFT) FOR NOVICE OR (RIGHT) FOR EXPERT', menuConfig).setOrigin(0.5)
-
+        
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press ← for novice → for expert', menuConfig).setOrigin(0.5)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     }
+
+    update() {
+        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            game.settings = {
+            spaceshipSpeed: 3,
+            gameTimer: 60000    
+            }
+            this.sound.play('sfx-select')
+            this.scene.start('playScene')    
+        }
+        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+            game.settings = {
+            spaceshipSpeed: 4,
+            gameTimer: 45000    
+            }
+            this.sound.play('sfx-select')
+            this.scene.start('playScene')    
+        }
 }
+}
+
+
