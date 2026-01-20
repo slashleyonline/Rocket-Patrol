@@ -47,9 +47,10 @@ class Menu extends Phaser.Scene {
             menuConfig).setOrigin(0.5)
         this.add.text(game.config.width/2, game.config.height/2 , 'USE ARROWS TO MOVE AND (F) TO FIRE!',
             menuConfig).setOrigin(0.5)
-            menuConfig.backgroundColor = '#00FF00'
-            menuConfig.color = '#000'
-            this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'PRESS (LEFT) FOR NOVICE OR (RIGHT) FOR EXPERT').setOrigin(0.5)
+        menuConfig.backgroundColor = '#00FF00'
+        menuConfig.color = '#000'
+        
+        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'PRESS (LEFT) FOR NOVICE OR (RIGHT) FOR EXPERT', menuConfig).setOrigin(0.5)
 
     }
 }
