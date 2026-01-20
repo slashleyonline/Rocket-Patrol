@@ -52,5 +52,7 @@ class Menu extends Phaser.Scene {
         
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'PRESS (LEFT) FOR NOVICE OR (RIGHT) FOR EXPERT', menuConfig).setOrigin(0.5)
 
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     }
 }
