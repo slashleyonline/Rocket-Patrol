@@ -9,6 +9,10 @@ class Play extends Phaser.Scene {
 
         //green UI
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0,0)
+        this.fireText = this.add.text(borderUISize * 10, borderPadding * 5, 'FIRE').setFontSize('28px')
+        this.fireText.setBackgroundColor('#F38141')
+        this.fireText.setColor('#843605')
+        this.fireText.visible = false
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0,0)
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0,0)
@@ -75,6 +79,13 @@ class Play extends Phaser.Scene {
             this.ship01.update()
             this.ship02.update()
             this.ship03.update()
+        }
+
+        if (this.p1Rocket.isFiring == true) {
+            this.fireText.visible = true
+        }
+        else {
+            this.fireText.visible = false
         }
 
         if (this.checkCollision(this.p1Rocket, this.ship03)) {
