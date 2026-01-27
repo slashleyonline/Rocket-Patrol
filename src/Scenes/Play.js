@@ -53,6 +53,11 @@ class Play extends Phaser.Scene {
                 scoreConfig).setOrigin(0.5)
             this.gameOver = true
         }, null, this)
+
+        //music
+        this.bgMusic = this.sound.add('bg-music')
+        this.bgMusic.loop = true
+        this.bgMusic.play()
     }
 
     update() {

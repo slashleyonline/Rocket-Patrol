@@ -19,7 +19,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx-select', './assets/sfx-select.wav')
         this.load.audio('sfx-explosion', './assets/sfx-explosion.wav')
         this.load.audio('sfx-shot', './assets/sfx-shot.wav')
-
+        this.load.audio('bg-music', './assets/flight.mp3')
     }
 
     create() {
@@ -50,10 +50,15 @@ class Menu extends Phaser.Scene {
         menuConfig.backgroundColor = '#00FF00'
         menuConfig.color = '#000'
         
-        
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press ← for novice → for expert', menuConfig).setOrigin(0.5)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+
+        menuConfig.backgroundColor = '#000'
+        menuConfig.color = '#FFF'
+        menuConfig.fontSize = '18px'
+        this.add.text(game.config.width/2, game.config.height/1.5 + borderUISize + borderPadding, 'Music: "Flight of the Valkyries" by Wilhelm Richard Wagner', menuConfig).setOrigin(0.5)
+
     }
 
     update() {
