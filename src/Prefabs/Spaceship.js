@@ -7,18 +7,34 @@ class Spaceship extends Phaser.GameObjects.Sprite {
 
         this.setOrigin(0.5)
 
+        if (this.texture.key == 'ufo') {
+            this.isUfo = true
+            this.pointValue = 100
+        }
+        else {
+            this.isUfo = false
+        }
+
         if (this.moveDir < 0.5) {
             this.moveDir = -1
             this.x = game.config.width
             this.spawnPoint = 0
-            this.rotation = Math.PI
+            if (!this.isUfo) {
+                this.rotation = Math.PI
+            }
         }
         else {
             this.moveDir = 1
             this.spawnPoint = game.config.width
         }
 
-        this.moveSpeed = game.settings.spaceshipSpeed * this.moveDir
+        if (!this.isUfo) {
+            this.moveSpeed = game.settings.spaceshipSpeed * this.moveDir 
+        }
+        else {
+            this.moveSpeed = 4 * this.moveDir
+        }
+
     }
 
     update() {
