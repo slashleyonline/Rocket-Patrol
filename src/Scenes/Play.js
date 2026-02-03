@@ -152,6 +152,20 @@ class Play extends Phaser.Scene {
         else{
             this.addToTimer(2)
         }
+
+        // Used some  of Explosion Emitter Code from Phaser.io:
+        // https://phaser.io/examples/v3.85.0/game-objects/particle-emitter/view/explode-emitter
+        const emitter = this.add.particles(ship.x, ship.y, 'rocket', {
+            lifespan: 500,
+            speed: { min: 500, max: 600 },
+            scale: { start: 0.5, end: 0 },
+            blendMode: 'ADD',
+            emitting: false
+        });
+        emitter.explode(16);
+
+
+
     }
 
     addToTimer(timeAdded) {
