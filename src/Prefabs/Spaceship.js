@@ -8,6 +8,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         this.setOrigin(0.5)
 
         if (this.texture.key == 'ufo') {
+            console.log('UFO spawned!')
             this.isUfo = true
             this.pointValue = 100
         }
