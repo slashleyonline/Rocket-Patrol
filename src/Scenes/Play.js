@@ -13,6 +13,12 @@ class Play extends Phaser.Scene {
         this.fireText.setBackgroundColor('#F38141')
         this.fireText.setColor('#843605')
         this.fireText.visible = false
+
+        //Timer for new score system
+        this.timerText = this.add.text(borderUISize * 5, borderPadding * 5, borderUISize * 2).setFontSize('28px')
+        this.timerText.setBackgroundColor('#FFF')
+        this.timerText.setColor('#777')
+
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0,0)
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0,0)
@@ -26,7 +32,7 @@ class Play extends Phaser.Scene {
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0.5)
         this.ship03 = new Spaceship(this, game.config.width,  borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0.5)
 
-        this.ufo = new Spaceship(this, game.config.width - borderUISize*2, borderUISize*4, 'ufo', 0, 30).setOrigin(0.5)
+        this.ufo = new Spaceship(this, game.config.width - borderUISize*2, borderUISize*4, 'ufo', 0, 50).setOrigin(0.5)
     
         keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
@@ -35,7 +41,7 @@ class Play extends Phaser.Scene {
 
         this.p1Score = 0
 
-        let scoreConfig = {
+        this.scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#F3B141',
@@ -48,15 +54,15 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, this.scoreConfig)
 
         this.gameOver = false
 
-        scoreConfig.fixedWidth = 0
+        this.scoreConfig.fixedWidth = 0
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5),
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5),
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu',
-                scoreConfig).setOrigin(0.5)
+                this.scoreConfig).setOrigin(0.5)
             this.gameOver = true
         }, null, this)
 
@@ -73,7 +79,8 @@ class Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene")
         }
-
+        //set timer number
+        this.timerText.text = Math.floor(this.clock.getRemainingSeconds())
 
         this.starfield.tilePositionX -= 4
         if (!this.gameOver) {
@@ -140,5 +147,28 @@ class Play extends Phaser.Scene {
         this.p1Score += ship.points
         this.scoreLeft.text = this.p1Score
         this.sound.play('sfx-explosion')
+        if (ship.isUFO) {
+            this.addToTimer(5)
+            console.log('hit UFO!')
+        }
+        else{
+            this.addToTimer(2)
+        }
     }
+
+    addToTimer(timeAdded) {
+        let newTime = (this.clock.getRemainingSeconds() + timeAdded) * 1000
+        this.clock.reset({ 
+            delay: newTime,
+            callback: () => {
+                this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5),
+                this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu',
+                this.scoreConfig).setOrigin(0.5)
+                this.gameOver = true
+            }
+         })
+        console.log(newTime)
+        Math.floor((game.settings.gameTimer - this.time.now) / 1000)
+    }
+    
 }
